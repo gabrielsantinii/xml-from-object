@@ -10,7 +10,7 @@ export namespace FromObject {
     [k: string]: FieldValue;
   };
   export type FieldValue = {
-    value: string | string[] | FromObject.Schema | FromObject.Schema[];
+    value: string | string[] | boolean | number | FromObject.Schema | FromObject.Schema[];
     options?: FieldOptions;
   };
   export type FieldOptions = {

@@ -30,7 +30,7 @@ export class FromObjectXmlBuilder implements FromObject {
     if (isArrayOfObjects(value)) return { type: "array-of-objects", value: value as FromObject.Schema[] };
     if (isArrayOfString(value)) return { type: "array-of-string", value: value as string[] };
     if (typeof value === "object") return { type: "object", value: value as FromObject.Schema };
-    if (typeof value === "string") return { type: "string", value: value as string };
+    if (["string", "boolean", "number"].includes(typeof value)) return { type: "string", value: String(value) };
     throw new Error("unexpected value type");
   }
 

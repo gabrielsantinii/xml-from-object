@@ -9,13 +9,25 @@ const makeSut = () => {
 
 describe("FromObjectXmlBuilder", () => {
   describe("Plain object", () => {
-    it("should transform the key into xml tag", () => {
+    it("should transform the string key-value into xml tag", () => {
       const { sut } = makeSut();
       const schema: FromObject.Schema = { anyKey: { value: "anyValue" } };
       const result = sut.fromObject({ schema });
       expect(result).toBe("<anyKey>anyValue</anyKey>");
     });
-    it("should transform the keys into xml tags", () => {
+    it("should transform the number key-value into xml tag", () => {
+      const { sut } = makeSut();
+      const schema: FromObject.Schema = { anyKey: { value: 1 } };
+      const result = sut.fromObject({ schema });
+      expect(result).toBe("<anyKey>1</anyKey>");
+    });
+    it("should transform the boolean key-value into xml tag", () => {
+      const { sut } = makeSut();
+      const schema: FromObject.Schema = { anyKey: { value: true } };
+      const result = sut.fromObject({ schema });
+      expect(result).toBe("<anyKey>true</anyKey>");
+    });
+    it("should transform the keys-value into xml tags", () => {
       const { sut } = makeSut();
       const schema: FromObject.Schema = {
         anyKey: { value: "anyValue" },
