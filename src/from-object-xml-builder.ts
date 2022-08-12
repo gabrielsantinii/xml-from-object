@@ -4,7 +4,14 @@ import { FromObjectTypes } from "@/types";
 
 export class FromObjectXmlBuilder implements FromObject {
   fromObject(params: FromObject.Params): string {
-    return this.parseSchemaToXml(params.schema);
+    if (!params.header) return this.parseSchemaToXml(params.schema);
+    const parsedHeader = this.parseXmlHeader(params.header);
+    const parsedSchema = this.parseSchemaToXml(params.schema);
+    return parsedHeader + parsedSchema;
+  }
+
+  private parseXmlHeader(header: FromObject.Header): string {
+    return `<?xml version="${header.version}" encoding="${header.encoding}"?>`;
   }
 
   private parseSchemaToXml(schema: FromObject.Schema): string {

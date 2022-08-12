@@ -326,4 +326,12 @@ describe("FromObjectXmlBuilder", () => {
       });
     });
   });
+  describe("Header", () => {
+    it("should set the version and encoding correctly", () => {
+      const { sut } = makeSut();
+      const schema: FromObject.Schema = { anyKey: { value: "anyValue" } };
+      const result = sut.fromObject({ schema, header: { version: "1.0", encoding: "UTF-8" } });
+      expect(result).toBe(`<?xml version="1.0" encoding="UTF-8"?><anyKey>anyValue</anyKey>`);
+    });
+  });
 });
