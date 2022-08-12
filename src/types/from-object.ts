@@ -20,7 +20,7 @@ export namespace FromObjectTypes {
 
   type ArrayOfObjectsType = {
     value: FromObject.Schema[];
-    type: "array-of-objects";
+    type: "array-of-object";
   };
 
   type ObjectType = {

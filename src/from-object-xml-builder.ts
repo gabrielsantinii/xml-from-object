@@ -1,5 +1,5 @@
 import { FromObject } from "@/interfaces";
-import { isArrayOfObjects, isArrayOfString } from "@/helpers";
+import { isArrayOfObject, isArrayOfString } from "@/helpers";
 import { FromObjectTypes } from "@/types";
 
 export class FromObjectXmlBuilder implements FromObject {
@@ -11,7 +11,7 @@ export class FromObjectXmlBuilder implements FromObject {
     const resultInArray = Object.entries(schema).map(([key, { value: untypedValue, options: fieldOptions }]) => {
       const { value, type } = this.getValueType(untypedValue);
       switch (type) {
-        case "array-of-objects":
+        case "array-of-object":
           return this.parseTagForArrayOfObjects(key, value, fieldOptions);
         case "array-of-string":
           return this.parseTagForArrayOfString(key, value, fieldOptions);
@@ -30,7 +30,7 @@ export class FromObjectXmlBuilder implements FromObject {
 
   private getValueType(value: any): FromObjectTypes.InternalValue {
     if (value === undefined || value === null) return { type: "self-closing", value: undefined };
-    if (isArrayOfObjects(value)) return { type: "array-of-objects", value: value as FromObject.Schema[] };
+    if (isArrayOfObject(value)) return { type: "array-of-object", value: value as FromObject.Schema[] };
     if (isArrayOfString(value)) return { type: "array-of-string", value: value as string[] };
     if (typeof value === "object") return { type: "object", value: value as FromObject.Schema };
     if (["string", "boolean", "number"].includes(typeof value)) return { type: "string", value: String(value) };

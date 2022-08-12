@@ -1,2 +1,2 @@
 export * from "./is-array-of-string";
-export * from "./is-array-of-objects";
+export * from "./is-array-of-object";
