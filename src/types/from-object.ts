@@ -1,7 +1,12 @@
 import { FromObject } from "@/interfaces";
 
 export namespace FromObjectTypes {
-  export type InternalValue = ArrayOfStringValueType | StringValueType | ArrayOfObjectsType | Object;
+  export type InternalValue =
+    | ArrayOfStringValueType
+    | StringValueType
+    | ArrayOfObjectsType
+    | ObjectType
+    | SelfClosingTyope;
 
   type ArrayOfStringValueType = {
     value: string[];
@@ -18,8 +23,13 @@ export namespace FromObjectTypes {
     type: "array-of-objects";
   };
 
-  type Object = {
+  type ObjectType = {
     value: FromObject.Schema;
     type: "object";
+  };
+
+  type SelfClosingTyope = {
+    value: undefined;
+    type: "self-closing";
   };
 }

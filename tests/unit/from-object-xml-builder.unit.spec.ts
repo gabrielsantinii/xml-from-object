@@ -9,25 +9,25 @@ const makeSut = () => {
 
 describe("FromObjectXmlBuilder", () => {
   describe("Plain object", () => {
-    it("should transform the string key-value into xml tag", () => {
+    it("Should transform the string key-value into xml tag", () => {
       const { sut } = makeSut();
       const schema: FromObject.Schema = { anyKey: { value: "anyValue" } };
       const result = sut.fromObject({ schema });
       expect(result).toBe("<anyKey>anyValue</anyKey>");
     });
-    it("should transform the number key-value into xml tag", () => {
+    it("Should transform the number key-value into xml tag", () => {
       const { sut } = makeSut();
       const schema: FromObject.Schema = { anyKey: { value: 1 } };
       const result = sut.fromObject({ schema });
       expect(result).toBe("<anyKey>1</anyKey>");
     });
-    it("should transform the boolean key-value into xml tag", () => {
+    it("Should transform the boolean key-value into xml tag", () => {
       const { sut } = makeSut();
       const schema: FromObject.Schema = { anyKey: { value: true } };
       const result = sut.fromObject({ schema });
       expect(result).toBe("<anyKey>true</anyKey>");
     });
-    it("should transform the keys-value into xml tags", () => {
+    it("Should transform the keys-value into xml tags", () => {
       const { sut } = makeSut();
       const schema: FromObject.Schema = {
         anyKey: { value: "anyValue" },
@@ -36,8 +36,18 @@ describe("FromObjectXmlBuilder", () => {
       const result = sut.fromObject({ schema });
       expect(result).toBe("<anyKey>anyValue</anyKey><anyOtherKey>anyOtherValue</anyOtherKey>");
     });
+    it("Should transform the null and undefined keys-value into xml self-closing tags", () => {
+      const { sut } = makeSut();
+      const schema: FromObject.Schema = {
+        anyKey: { value: "anyValue" },
+        anyNullKey: { value: null },
+        anyUndefinedKey: { value: undefined },
+      };
+      const result = sut.fromObject({ schema });
+      expect(result).toBe("<anyKey>anyValue</anyKey><anyNullKey/><anyUndefinedKey/>");
+    });
     describe("With array", () => {
-      it("should transform an array of string into string", () => {
+      it("Should transform an array of string into string", () => {
         const { sut } = makeSut();
         const schema: FromObject.Schema = {
           anyKey: { value: "anyValue" },
@@ -46,7 +56,7 @@ describe("FromObjectXmlBuilder", () => {
         const result = sut.fromObject({ schema });
         expect(result).toBe("<anyKey>anyValue</anyKey><anyArrayKey>anyValueInArray1,anyValueInArray2</anyArrayKey>");
       });
-      it("should transform an array of object into nested keys", () => {
+      it("Should transform an array of object into nested keys", () => {
         const { sut } = makeSut();
         const schema: FromObject.Schema = {
           anyKey: { value: "anyValue" },
@@ -73,7 +83,7 @@ describe("FromObjectXmlBuilder", () => {
     });
     describe("With cdata", () => {
       describe("Wrapping string", () => {
-        it("should wrap the value with cdata the fields flagged to use cdata", () => {
+        it("Should wrap the value with cdata the fields flagged to use cdata", () => {
           const { sut } = makeSut();
           const schema: FromObject.Schema = {
             anyKey: { value: "anyValue" },
@@ -90,7 +100,7 @@ describe("FromObjectXmlBuilder", () => {
           `);
           expect(result).toBe(expectedXml);
         });
-        it("should wrap the value with cdata the fields flagged to use cdata even if they are empty", () => {
+        it("Should wrap the value with cdata the fields flagged to use cdata even if they are empty", () => {
           const { sut } = makeSut();
           const schema: FromObject.Schema = {
             anyKey: { value: "anyValue" },
@@ -109,7 +119,7 @@ describe("FromObjectXmlBuilder", () => {
         });
       });
       describe("Wrapping object", () => {
-        it("should wrap the object value with cdata", () => {
+        it("Should wrap the object value with cdata", () => {
           const { sut } = makeSut();
           const schema: FromObject.Schema = {
             anyKey: { value: "anyValue" },
@@ -141,7 +151,7 @@ describe("FromObjectXmlBuilder", () => {
         });
       });
       describe("Wrapping array of strings", () => {
-        it("should wrap the array of string with cdata", () => {
+        it("Should wrap the array of string with cdata", () => {
           const { sut } = makeSut();
           const schema: FromObject.Schema = {
             anyKey: { value: "anyValue" },

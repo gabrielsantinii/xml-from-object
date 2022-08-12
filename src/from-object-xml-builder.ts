@@ -19,6 +19,8 @@ export class FromObjectXmlBuilder implements FromObject {
           return this.parseTagForObject(key, value, fieldOptions);
         case "string":
           return this.parseTagForString(key, value, fieldOptions);
+        case "self-closing":
+          return this.parseSelfClosingTag(key);
         default:
           throw new Error(`value type ${type} not implemented`);
       }
@@ -27,6 +29,7 @@ export class FromObjectXmlBuilder implements FromObject {
   }
 
   private getValueType(value: any): FromObjectTypes.InternalValue {
+    if (value === undefined || value === null) return { type: "self-closing", value: undefined };
     if (isArrayOfObjects(value)) return { type: "array-of-objects", value: value as FromObject.Schema[] };
     if (isArrayOfString(value)) return { type: "array-of-string", value: value as string[] };
     if (typeof value === "object") return { type: "object", value: value as FromObject.Schema };
@@ -55,6 +58,10 @@ export class FromObjectXmlBuilder implements FromObject {
 
   private parseTagForString(key: string, value: string, options?: FromObject.FieldOptions): string {
     return this.keyValueToXmlTag(key, value, options);
+  }
+
+  private parseSelfClosingTag(key: string): string {
+    return `<${key}/>`;
   }
 
   private keyValueToXmlTag(key: string, value: string, options?: FromObject.FieldOptions): string {
