@@ -1,1 +1,1 @@
-export * from "./xml-builder";
+export * from "./from-object-xml-builder";

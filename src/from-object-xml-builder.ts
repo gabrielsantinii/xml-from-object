@@ -2,7 +2,7 @@ import { FromObject } from "@/interfaces";
 import { isArrayOfObjects, isArrayOfString } from "@/helpers";
 import { FromObjectTypes } from "@/types";
 
-export class XmlBuilder implements FromObject {
+export class FromObjectXmlBuilder implements FromObject {
   fromObject(params: FromObject.Params): string {
     return this.parseSchemaToXml(params.schema);
   }
