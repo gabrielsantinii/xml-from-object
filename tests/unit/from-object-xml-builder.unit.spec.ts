@@ -330,8 +330,24 @@ describe("FromObjectXmlBuilder", () => {
     it("should set the version and encoding correctly", () => {
       const { sut } = makeSut();
       const schema: FromObject.Schema = { anyKey: { value: "anyValue" } };
-      const result = sut.fromObject({ schema, header: { version: "1.0", encoding: "UTF-8" } });
+      const header: FromObject.Header = { version: "1.0", encoding: "UTF-8" };
+      const result = sut.fromObject({ schema, header });
       expect(result).toBe(`<?xml version="1.0" encoding="UTF-8"?><anyKey>anyValue</anyKey>`);
+    });
+
+    it("should not add header if the params has no header", () => {
+      const { sut } = makeSut();
+      const schema: FromObject.Schema = { anyKey: { value: "anyValue" } };
+      const result = sut.fromObject({ schema });
+      expect(result).toBe(`<anyKey>anyValue</anyKey>`);
+    });
+
+    it("should add custom header correctly", () => {
+      const { sut } = makeSut();
+      const schema: FromObject.Schema = { anyKey: { value: "anyValue" } };
+      const header: FromObject.Header = { custom: "<myHeader>" };
+      const result = sut.fromObject({ schema, header });
+      expect(result).toBe(`<myHeader><anyKey>anyValue</anyKey>`);
     });
   });
 });

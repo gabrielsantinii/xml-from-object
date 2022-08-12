@@ -11,6 +11,7 @@ export class FromObjectXmlBuilder implements FromObject {
   }
 
   private parseXmlHeader(header: FromObject.Header): string {
+    if ("custom" in header) return header.custom;
     return `<?xml version="${header.version}" encoding="${header.encoding}"?>`;
   }
 
