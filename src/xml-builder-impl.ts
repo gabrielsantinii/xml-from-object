@@ -1,5 +1,6 @@
 import { XmlBuilder } from ".";
 import { isArrayOfObjects, isArrayOfString } from "@/helpers";
+import { InternalValue } from "./internal-value";
 
 export class XmlBuilderImpl implements XmlBuilder {
   fromObject(params: XmlBuilder.FromObject.Params): string {
@@ -7,29 +8,29 @@ export class XmlBuilderImpl implements XmlBuilder {
   }
 
   private parseSchemaToXml(schema: XmlBuilder.FromObject.Schema): string {
-    const resultInArray = Object.entries(schema).map(([key, value]) => {
-      const valueType = this.getValueType(value);
-      switch (valueType) {
+    const resultInArray = Object.entries(schema).map(([key, untypedValue]) => {
+      const { value, type } = this.getValueType(untypedValue);
+      switch (type) {
         case "array-of-objects":
-          return this.parseTagForArrayOfObjects(key, value as XmlBuilder.FromObject.Schema[]);
+          return this.parseTagForArrayOfObjects(key, value);
         case "array-of-string":
-          return this.parseTagForArrayOfString(key, value as string[]);
+          return this.parseTagForArrayOfString(key, value);
         case "object":
-          return this.parseTagForObject(key, value as XmlBuilder.FromObject.Schema);
+          return this.parseTagForObject(key, value);
         case "string":
-          return this.parseTagForString(key, value as string);
+          return this.parseTagForString(key, value);
         default:
-          throw new Error(`value type ${valueType} not implemented`);
+          throw new Error(`value type ${type} not implemented`);
       }
     });
     return resultInArray.join("");
   }
 
-  private getValueType(value: any): "string" | "array-of-string" | "array-of-objects" | "object" {
-    if (isArrayOfObjects(value)) return "array-of-objects";
-    if (isArrayOfString(value)) return "array-of-string";
-    if (typeof value === "object") return "object";
-    if (typeof value === "string") return "string";
+  private getValueType(value: any): InternalValue {
+    if (isArrayOfObjects(value)) return { type: "array-of-objects", value: value as XmlBuilder.FromObject.Schema[] };
+    if (isArrayOfString(value)) return { type: "array-of-string", value: value as string[] };
+    if (typeof value === "object") return { type: "object", value: value as XmlBuilder.FromObject.Schema };
+    if (typeof value === "string") return { type: "string", value: value as string };
     throw new Error("unexpected value type");
   }
 
