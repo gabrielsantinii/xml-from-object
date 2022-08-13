@@ -1,8 +1,8 @@
-import { FromObject } from "@/interfaces";
 import { FromObjectXmlBuilder } from "@/index";
 import { removeAllSpacesFromString } from "../helpers";
+import { FromObjectSchema } from "@/types";
 
-const correiosSchema: FromObject.Schema = {
+const correiosSchema: FromObjectSchema = {
   correioslog: {
     value: {
       tipo_arquivo: {
@@ -95,8 +95,8 @@ const correiosSchema: FromObject.Schema = {
           },
           servico_adicional: {
             value: [
-              { codigo_servico_adicional: { value: '025' } },
-              { codigo_servico_adicional: { value: '064' } },
+              { codigo_servico_adicional: { value: "025" } },
+              { codigo_servico_adicional: { value: "064" } },
               { valor_declarado: { value: 10 } },
             ],
           },
@@ -127,9 +127,10 @@ const makeSut = () => {
 describe("Correios", () => {
   it("should build the exact same xml of old implementation", () => {
     const { sut } = makeSut();
-    const result = sut.fromObject({ schema: correiosSchema });
+    const result = sut.fromObject({ schema: correiosSchema, header: { encoding: "UTF-8", version: "1.0" } });
     const expectedXml = removeAllSpacesFromString(
-      `<correioslog>
+      `<?xml version="1.0" encoding="UTF-8"?>
+      <correioslog>
         <tipo_arquivo>
           Postagem
         </tipo_arquivo>
