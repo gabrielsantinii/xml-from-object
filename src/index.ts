@@ -7,4 +7,4 @@ export {
   SchemaFieldOptions,
   SchemaFieldValue,
 } from "@/types";
-export * from "./from-object-xml-builder";
+export { XmlFromObject, xmlFromObject } from "./xml-from-object";

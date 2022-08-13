@@ -1,13 +1,13 @@
 import { removeAllSpacesFromString } from "@/tests/helpers";
-import { FromObjectXmlBuilder } from "@/index";
+import { XmlFromObject } from "@/index";
 import { FromObjectHeader, FromObjectSchema } from "@/types";
 
 const makeSut = () => {
-  const sut = new FromObjectXmlBuilder();
+  const sut = new XmlFromObject();
   return { sut };
 };
 
-describe("FromObjectXmlBuilder", () => {
+describe("XmlFromObject", () => {
   describe("Plain object", () => {
     it("Should transform the string key-value into xml tag", () => {
       const { sut } = makeSut();
