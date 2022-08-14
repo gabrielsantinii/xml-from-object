@@ -61,7 +61,7 @@ const xml = xmlFromObject({ schema: personSchema });
 Define the header specifying the version and encoding.
 
 ```ts
-import { xmlFromObject, FromObjectSchema } from "xml-from-object";
+import { xmlFromObject, FromObjectSchema, FromObjectHeader } from "xml-from-object";
 
 const schema: FromObjectSchema = {
   name: {
@@ -86,7 +86,7 @@ const xml = xmlFromObject({ schema, header });
 Define the header as you wish, without restrictions.
 
 ```ts
-import { xmlFromObject, FromObjectSchema } from "xml-from-object";
+import { xmlFromObject, FromObjectSchema, FromObjectHeader } from "xml-from-object";
 
 const schema: FromObjectSchema = {
   name: {
