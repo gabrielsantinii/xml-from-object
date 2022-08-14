@@ -1,10 +1,12 @@
 import { isArrayOfObject, isArrayOfString } from "./helpers";
 import {
   FromObjectHeader,
+  SchemaFieldConfig,
   FromObjectInternalValue,
   FromObjectParams,
   FromObjectSchema,
   SchemaFieldOptions,
+  SchemaFieldAttributes,
 } from "./types";
 
 /**
@@ -12,10 +14,10 @@ import {
  */
 export class XmlFromObject {
   /**
-     * Transform a Javascript plain object into XML
-     * @param {object} schemaConfig.schema - The typed schema with fields and configs to create the XML.
-     * @param {object} [schemaConfig.header] - (Optional) The xml header (typically "<?xml version...>").
-     *
+   * Transform a Javascript plain object into XML
+   * @param {object} schemaConfig.schema - The typed schema with fields and configs to create the XML.
+   * @param {object} [schemaConfig.header] - (Optional) The xml header (typically "<?xml version...>").
+   *
    */
   fromObject = xmlFromObject;
 }
@@ -38,17 +40,17 @@ function parseXmlHeader(header: FromObjectHeader): string {
 }
 
 function parseSchemaToXml(schema: FromObjectSchema): string {
-  const resultInArray = Object.entries(schema).map(([key, { value: untypedValue, options: fieldOptions }]) => {
+  const resultInArray = Object.entries(schema).map(([key, { value: untypedValue, ...fieldConfig }]) => {
     const { value, type } = getValueType(untypedValue);
     switch (type) {
       case "array-of-object":
-        return parseTagForArrayOfObjects(key, value, fieldOptions);
+        return parseTagForArrayOfObjects(key, value, fieldConfig);
       case "array-of-string":
-        return parseTagForArrayOfString(key, value, fieldOptions);
+        return parseTagForArrayOfString(key, value, fieldConfig);
       case "object":
-        return parseTagForObject(key, value, fieldOptions);
+        return parseTagForObject(key, value, fieldConfig);
       case "string":
-        return parseTagForString(key, value, fieldOptions);
+        return parseTagForString(key, value, fieldConfig);
       case "self-closing":
         return parseSelfClosingTag(key);
       default:
@@ -67,29 +69,62 @@ function getValueType(value: any): FromObjectInternalValue {
   throw new Error("unexpected value type");
 }
 
-function parseTagForArrayOfObjects(key: string, values: FromObjectSchema[], options?: SchemaFieldOptions): string {
-  const nestedTagsAsArrayOfString = values.map((value) => parseSchemaToXml(value));
+function parseTagForArrayOfObjects(key: string, values: FromObjectSchema[], config: SchemaFieldConfig): string {
+  const nestedTagsAsArrayOfString = values.map(parseSchemaToXml);
   const nestedTags = nestedTagsAsArrayOfString.join("");
-  return keyValueToXmlTag(key, nestedTags, options);
+  return keyValueToXmlTag(key, nestedTags, config);
 }
 
-function parseTagForArrayOfString(key: string, value: string[], options?: SchemaFieldOptions): string {
-  return keyValueToXmlTag(key, value.join(), options);
+function parseTagForArrayOfString(key: string, value: string[], config: SchemaFieldConfig): string {
+  return keyValueToXmlTag(key, value.join(), config);
 }
 
-function parseTagForObject(key: string, value: FromObjectSchema, options?: SchemaFieldOptions): string {
+function parseTagForObject(key: string, value: FromObjectSchema, config: SchemaFieldConfig): string {
   const nestedValue = parseSchemaToXml(value);
-  return keyValueToXmlTag(key, nestedValue, options);
+  return keyValueToXmlTag(key, nestedValue, config);
 }
 
-function parseTagForString(key: string, value: string, options?: SchemaFieldOptions): string {
-  return keyValueToXmlTag(key, value, options);
+function parseTagForString(key: string, value: string, config: SchemaFieldConfig): string {
+  return keyValueToXmlTag(key, value, config);
 }
 
 function parseSelfClosingTag(key: string): string {
   return `<${key}/>`;
 }
 
-function keyValueToXmlTag(key: string, value: string, options?: SchemaFieldOptions): string {
-  return options?.cdata ? `<${key}><![CDATA[${value}]]></${key}>` : `<${key}>${value}</${key}>`;
+function keyValueToXmlTag(key: string, value: string, config: SchemaFieldConfig): string {
+  const parsedKey = parseKey(key, config);
+  const parsedValue = parseValue(value, config);
+  return parsedKey.start + parsedValue + parsedKey.end;
+}
+
+function parseValue(value: string, config: SchemaFieldConfig): string {
+  if (config.options?.cdata) return wrapWithCdata(value);
+  return value;
+}
+
+function wrapWithCdata(value: string): string {
+  return `<![CDATA[${value}]]>`;
+}
+
+function parseKey(key: string, config: SchemaFieldConfig): { start: string; end: string } {
+  const start = parseStartOfKey(key, config);
+  const end = `</${key}>`;
+  return { start, end };
+}
+
+function parseStartOfKey(key: string, config: SchemaFieldConfig): string {
+  if (!config.attributes) return `<${key}>`;
+  return `<${key} ${parseKeyAttributes(config.attributes)}>`;
+}
+
+function parseKeyAttributes(attributes: SchemaFieldAttributes): string {
+  const attributesInArray = Object.entries(attributes).map(([key, value]) => {
+    return parseAttribute(key, value);
+  });
+  return attributesInArray.join(" ");
+}
+
+function parseAttribute(key: string, value: string): string {
+  return `${key}="${value}"`;
 }

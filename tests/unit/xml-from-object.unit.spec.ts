@@ -207,6 +207,29 @@ describe("XmlFromObject", () => {
         });
       });
     });
+    describe("With attributes", () => {
+      it("should add the attribute as string inside tag", () => {
+        const { sut } = makeSut();
+        const schema: FromObjectSchema = {
+          anyKey: { value: "anyValue", attributes: { anyAttr: "anyAttrValue" } },
+        };
+        const result = sut.fromObject({ schema });
+        expect(result).toBe(`<anyKey anyAttr="anyAttrValue">anyValue</anyKey>`);
+      });
+      it("should add multiple attributes as string inside tag", () => {
+        const { sut } = makeSut();
+        const schema: FromObjectSchema = {
+          anyKey: {
+            value: "anyValue",
+            attributes: { anyAttr: "anyAttrValue", anyOtherAttr: "anyOthervalue", anyThirdAttr: "anyThirdValue" },
+          },
+        };
+        const result = sut.fromObject({ schema });
+        expect(result).toBe(
+          `<anyKey anyAttr="anyAttrValue" anyOtherAttr="anyOthervalue" anyThirdAttr="anyThirdValue">anyValue</anyKey>`
+        );
+      });
+    });
   });
   describe("Nested object", () => {
     it("should create nested tags according to the given object", () => {
