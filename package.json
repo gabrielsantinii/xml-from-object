@@ -8,7 +8,8 @@
   "author": "Gabriel Santini",
   "scripts": {
     "test": "jest",
-    "build": "tsc -p tsconfig-build.json"
+    "build": "tsc -p tsconfig-build.json",
+    "pub": "git push && npm version patch && npm run build && npm publish --access public"
   },
   "devDependencies": {
     "@types/jest": "^28.1.6",
@@ -42,8 +43,8 @@
     "url": "https://github.com/gabrielsantinii/xml-from-object/issues"
   },
   "homepage": "https://github.com/gabrielsantinii/xml-from-object#readme",
-  "directories": {
-    "doc": "docs",
-    "test": "tests"
-  }
+  "files": [
+    "dist",
+    "src"
+  ]
 }
