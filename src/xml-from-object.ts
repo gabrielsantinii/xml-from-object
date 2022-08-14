@@ -52,8 +52,6 @@ function parseSchemaToXml(schema: FromObjectSchema): string {
         return parseTagForString(key, value, fieldConfig);
       case "self-closing":
         return parseSelfClosingTag(key);
-      default:
-        throw new Error(`value type ${type} not implemented`);
     }
   });
   return resultInArray.join("");
@@ -64,8 +62,7 @@ function getValueType(value: any): FromObjectInternalValue {
   if (isArrayOfObject(value)) return { type: "array-of-object", value: value as FromObjectSchema[] };
   if (isArrayOfString(value)) return { type: "array-of-string", value: value as string[] };
   if (typeof value === "object") return { type: "object", value: value as FromObjectSchema };
-  if (["string", "boolean", "number"].includes(typeof value)) return { type: "string", value: String(value) };
-  throw new Error("unexpected value type");
+  return { type: "string", value: String(value) };
 }
 
 function parseTagForArrayOfObjects(key: string, values: FromObjectSchema[], config: SchemaFieldConfig): string {
