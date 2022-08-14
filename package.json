@@ -1,7 +1,7 @@
 {
   "name": "xml-from-object",
   "description": "Easy, highly typed and customizable way to build your xml using JS/TS plain objects.",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "license": "MIT",
