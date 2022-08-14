@@ -184,7 +184,7 @@ const xml = xmlFromObject({ schema: personSchema });
 If you want to inject the lib in your class dependencies for example, you can inject using the class way.
 
 ```ts
-import { XmlFromObject } from "xml-from-object";
+import { XmlFromObject, FromObjectSchema } from "xml-from-object";
 
 class YourClass {
   constructor(private readonly xmlFromObject: XmlFromObject) {}
