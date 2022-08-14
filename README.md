@@ -203,7 +203,6 @@ class YourClass {
     // Output: `<name>John</name><lastName>Doe</lastName>`
   }
 }
-// Output: `<name><![CDATA[John]]></name><age>12</age>`
 ````
 
 ## License
