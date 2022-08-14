@@ -58,7 +58,7 @@ const xml = xmlFromObject({ schema: personSchema });
 
 ### Header
 
-Define the header specifying the version and enconding.
+Define the header specifying the version and encoding.
 
 ```ts
 import { xmlFromObject, FromObjectSchema } from "xml-from-object";
