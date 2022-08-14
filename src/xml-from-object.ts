@@ -5,7 +5,6 @@ import {
   FromObjectInternalValue,
   FromObjectParams,
   FromObjectSchema,
-  SchemaFieldOptions,
   SchemaFieldAttributes,
 } from "./types";
 

@@ -8,3 +8,4 @@ export * from "./from-object-header";
 export * from "./from-object-params";
 export * from "./schema-field-attributes";
 export * from "./schema-field-config";
+export * from "./schema-of";

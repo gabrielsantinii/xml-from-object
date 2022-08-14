@@ -6,5 +6,8 @@ export {
   FromObjectManagedHeader,
   SchemaFieldOptions,
   SchemaFieldValue,
+  SchemaFieldAttributes,
+  SchemaFieldConfig,
+  SchemaOf,
 } from "@/types";
 export { XmlFromObject, xmlFromObject } from "./xml-from-object";
