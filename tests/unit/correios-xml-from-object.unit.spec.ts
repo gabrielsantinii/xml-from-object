@@ -1,8 +1,89 @@
 import { XmlFromObject } from "@/index";
 import { removeAllSpacesFromString } from "../helpers";
-import { FromObjectSchema } from "@/types";
+import { SchemaOf } from "@/types";
 
-const correiosSchema: FromObjectSchema = {
+type CorreiosPlpBody = {
+  correioslog: {
+    tipo_arquivo: string;
+    versao_arquivo: string;
+    plp: {
+      id_plp: null;
+      valor_global: null;
+      mcu_unidade_postagem: null;
+      nome_unidade_postagem: null;
+      cartao_postagem: number;
+    };
+    remetente: {
+      numero_contrato: number;
+      numero_diretoria: number;
+      codigo_administrativo: number;
+      nome_remetente: string;
+      logradouro_remetente: string;
+      numero_remetente: string;
+      complemento_remetente: string;
+      bairro_remetente: string;
+      cep_remetente: string;
+      cidade_remetente: string;
+      uf_remetente: string;
+      telefone_remetente: string;
+      fax_remetente: string;
+      email_remetente: string;
+      celular_remetente: string;
+      cpf_cnpj_remetente: string;
+      ciencia_conteudo_proibido: string;
+    };
+    forma_pagamento: null;
+    objeto_postal: {
+      numero_etiqueta: string;
+      sscc: null;
+      codigo_objeto_cliente: null;
+      codigo_servico_postagem: string;
+      cubagem: number;
+      peso: number;
+      rt1: null;
+      rt2: null;
+      restricao_anac: string;
+      destinatario: {
+        nome_destinatario: string;
+        telefone_destinatario: string;
+        celular_destinatario: string;
+        email_destinatario: string;
+        logradouro_destinatario: string;
+        complemento_destinatario: string;
+        numero_end_destinatario: string;
+        cpf_cnpj_destinatario: string;
+      };
+      nacional: {
+        bairro_destinatario: string;
+        cidade_destinatario: string;
+        uf_destinatario: string;
+        cep_destinatario: string;
+        codigo_usuario_postal: null;
+        centro_custo_cliente: null;
+        numero_nota_fiscal: null;
+        serie_nota_fiscal: null;
+        valor_nota_fiscal: null;
+        natureza_nota_fiscal: null;
+        descricao_objeto: string;
+        valor_a_cobrar: number;
+      };
+      servico_adicional: Array<{ codigo_servico_adicional: string } | { valor_declarado: number }>;
+      dimensao_objeto: {
+        tipo_objeto: string;
+        dimensao_altura: number;
+        dimensao_largura: number;
+        dimensao_comprimento: number;
+        dimensao_diametro: number;
+      };
+      data_postagem_sara: null;
+      status_processamento: number;
+      numero_comprovante_postagem: null;
+      valor_cobrado: null;
+    };
+  };
+};
+
+const correiosSchema: SchemaOf<CorreiosPlpBody> = {
   correioslog: {
     value: {
       tipo_arquivo: {
