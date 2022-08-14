@@ -32,10 +32,18 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/gabrielsantinii/xml-from-object"
+    "url": "git+https://github.com/gabrielsantinii/xml-from-object.git"
   },
   "engines": {
     "node": ">=12.22.0"
   },
-  "packageManager": "yarn@1.22.15"
+  "packageManager": "yarn@1.22.15",
+  "bugs": {
+    "url": "https://github.com/gabrielsantinii/xml-from-object/issues"
+  },
+  "homepage": "https://github.com/gabrielsantinii/xml-from-object#readme",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  }
 }
