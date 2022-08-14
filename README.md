@@ -1,3 +1,6 @@
+<div align="center">
+   <img src="https://raw.githubusercontent.com/gabrielsantinii/xml-from-object/master/docs/demo.png" alt="React Hook Form Logo - React hook custom hook for form validation" />
+</div>
 Easy, highly typed and customizable way to build your xml using JS/TS plain objects.
 
 ## Features
@@ -184,7 +187,7 @@ const xml = xmlFromObject({ schema: personSchema });
 If you want to inject the lib in your class dependencies for example, you can inject using the class way.
 
 ```ts
-import { XmlFromObject } from "xml-from-object";
+import { XmlFromObject, FromObjectSchema } from "xml-from-object";
 
 class YourClass {
   constructor(private readonly xmlFromObject: XmlFromObject) {}
