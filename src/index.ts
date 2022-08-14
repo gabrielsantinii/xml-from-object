@@ -9,5 +9,5 @@ export {
   SchemaFieldAttributes,
   SchemaFieldConfig,
   SchemaOf,
-} from "@/types";
+} from "./types";
 export { XmlFromObject, xmlFromObject } from "./xml-from-object";
