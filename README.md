@@ -1,5 +1,5 @@
 <div align="center">
-   <img src="https://raw.githubusercontent.com/gabrielsantinii/xml-from-object/master/docs/demo.png" alt="React Hook Form Logo - React hook custom hook for form validation" />
+   <img src="https://raw.githubusercontent.com/gabrielsantinii/xml-from-object/master/docs/demo.png" alt="xml-from-object demo" />
 </div>
 Easy, highly typed and customizable way to build your xml using JS/TS plain objects.
 
